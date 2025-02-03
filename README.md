@@ -11,6 +11,10 @@ An Arduino library for interfacing with the TF03K battery monitor that provides 
 - **Isolation**: Solid-state Optocoupler
 - **Error Checking**: 8-bit cumulative sum from first byte to fifteenth byte
 
+## Important Hardware Notes
+
+⚠️ **Please Note**: Most TF03K modules on the market do not come with TTL interface option installed by default. When purchasing, specifically look for and verify TTL compatibility with the seller. The TTL interface (which uses UART protocol) is needed for this library to work.
+
 ## Connection
 
 The TF03K requires TTL level serial connection:
