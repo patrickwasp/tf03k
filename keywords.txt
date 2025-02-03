@@ -1,0 +1,22 @@
+# Class names (KEYWORD1)
+TF03KSerial	KEYWORD1
+Tf03k	KEYWORD1
+
+# Methods (KEYWORD2)
+begin	KEYWORD2
+update	KEYWORD2
+processByte	KEYWORD2
+setErrorHandler	KEYWORD2
+setMessageHandler	KEYWORD2
+getCapacityPercent	KEYWORD2
+getVoltage	KEYWORD2
+getCapacity	KEYWORD2
+getCurrent	KEYWORD2
+getRemainingSeconds	KEYWORD2
+
+# Constants and types (KEYWORD3)
+ErrorType	KEYWORD3
+NoError	LITERAL1
+BufferOverflow	LITERAL1
+CRCMismatch	LITERAL1
+InvalidFrame	LITERAL1 
