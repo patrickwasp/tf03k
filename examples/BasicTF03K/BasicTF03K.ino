@@ -1,25 +1,14 @@
 #include <TF03KSerial.h>
 
 TF03KSerial batteryMonitor;
+unsigned long lastPrintTime = 0;
+const unsigned long PRINT_INTERVAL = 1000;  // Print every 1 second
 
 void setup() {
   Serial.begin(115200);  // Initialize main serial for debug output
   Serial1.begin(9600);   // Initialize Serial1 for TF03K communication - 9600 baud
   
   batteryMonitor.begin(Serial1);
-  
-  // Set up message handler
-  batteryMonitor.setMessageHandler([](float capacity_percent, float voltage,
-                                    float capacity, float current,
-                                    int remaining_seconds) {
-    // Print the battery information
-    Serial.print("Capacity: "); Serial.print(capacity_percent); Serial.println("%");
-    Serial.print("Voltage: "); Serial.print(voltage); Serial.println("V");
-    Serial.print("Capacity: "); Serial.print(capacity); Serial.println("Ah");
-    Serial.print("Current: "); Serial.print(current); Serial.println("A");
-    Serial.print("Remaining Time: "); Serial.print(remaining_seconds); Serial.println("s");
-    Serial.println();
-  });
   
   // Set up error handler
   batteryMonitor.setErrorHandler([](Tf03k::ErrorType error) {
@@ -40,7 +29,25 @@ void setup() {
   });
 }
 
+void printBatteryInfo() {
+  // Print the battery information using getter methods
+  Serial.print("Capacity: "); Serial.print(batteryMonitor.getCapacityPercent()); Serial.println("%");
+  Serial.print("Voltage: "); Serial.print(batteryMonitor.getVoltage()); Serial.println("V");
+  Serial.print("Capacity: "); Serial.print(batteryMonitor.getCapacity()); Serial.println("Ah");
+  Serial.print("Current: "); Serial.print(batteryMonitor.getCurrent()); Serial.println("A");
+  Serial.print("Remaining Time: "); Serial.print(batteryMonitor.getRemainingSeconds()); Serial.println("s");
+  Serial.println();
+}
+
 void loop() {
   batteryMonitor.update();  // Process any available data
+  
+  // Check if it's time to print the battery info
+  unsigned long currentTime = millis();
+  if (currentTime - lastPrintTime >= PRINT_INTERVAL) {
+    printBatteryInfo();
+    lastPrintTime = currentTime;
+  }
+  
   delay(10);  // Small delay to prevent overwhelming the serial buffer
 } 
